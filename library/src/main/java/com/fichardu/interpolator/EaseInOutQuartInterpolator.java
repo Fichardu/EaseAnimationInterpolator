@@ -32,7 +32,8 @@ public class EaseInOutQuartInterpolator implements TimeInterpolator{
         if (input < 0.5f) {
             return 0.5f * input*input*input*input;
         }
-        return 0.5f * (2 - (input-2)*input*input*input);
+        input -= 2;
+        return 0.5f * (2 - input*input*input*input);
     }
 
 }

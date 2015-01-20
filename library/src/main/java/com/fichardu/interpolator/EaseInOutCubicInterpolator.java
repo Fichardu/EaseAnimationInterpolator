@@ -30,9 +30,10 @@ public class EaseInOutCubicInterpolator implements TimeInterpolator{
     @Override
     public float getInterpolation(float input) {
         if (input < 0.5f) {
-            return 0.5f*input*input*input;
+            return 0.5f * input * input * input;
         }
-        return 0.5f*(input-2)*input*input + 1;
+        input -= 2;
+        return 0.5f*input*input*input + 1;
     }
 
 }

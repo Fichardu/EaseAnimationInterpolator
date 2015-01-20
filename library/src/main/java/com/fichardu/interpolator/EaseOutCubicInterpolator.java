@@ -29,7 +29,7 @@ public class EaseOutCubicInterpolator implements TimeInterpolator{
 
     @Override
     public float getInterpolation(float input) {
-        return (input-1)*input*input + 1;
+        return (input - 1)*input*input + 1;
     }
 
 }

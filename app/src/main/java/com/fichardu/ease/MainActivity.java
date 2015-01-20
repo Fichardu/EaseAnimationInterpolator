@@ -1,9 +1,14 @@
 package com.fichardu.ease;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private View mAnimView;
+    private static final String IN_PG_NAME = "com.fichardu.interpolator.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mAnimView = findViewById(R.id.anim_view);
         mDrawerList.setAdapter(
                 new ArrayAdapter<String>(this, R.layout.drawer_list_item, mInterpolators));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -35,8 +43,31 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void selectDrawerItem(int position) {
-        Log.d("Test", mInterpolators[position]);
+        String name = mInterpolators[position];
+        TimeInterpolator interpolator = null;
+        try {
+            Class clazz = Class.forName(IN_PG_NAME + name);
+            interpolator = (TimeInterpolator) clazz.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mAnimView.setTranslationY(0);
+        Animator animator = ObjectAnimator.ofFloat(mAnimView, "translationY", 0f, dp2px(this, 80));
+        animator.setDuration(1000);
+        if (interpolator != null) {
+            animator.setInterpolator(interpolator);
+        }
+        animator.start();
 
+    }
+
+    private static float dp2px(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
 

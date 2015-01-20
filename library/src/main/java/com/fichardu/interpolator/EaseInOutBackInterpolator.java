@@ -31,12 +31,18 @@ public class EaseInOutBackInterpolator implements TimeInterpolator{
 
     @Override
     public float getInterpolation(float input) {
-        if (input < 0.5f) {
+        if ((input*=2) < 1.0f) {
             return 0.5f * (input*input*((s + 1)*input - s));
         }
 
         input -= 2;
         return 0.5f*input*input*((s + 1)*input + s) + 2;
+//        float s = 1.70158f;
+//        if ((input/=1/2) < 1f) {
+//            return 0.5f*(input*input*(((s*=1.525) + 1)*input - s));
+//        }
+//        return 0.5f*((input-=2)*input*(((s*=1.525) + 1)*input + s) + 2);
+
     }
 
 }

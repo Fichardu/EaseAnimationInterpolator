@@ -29,7 +29,7 @@ public class EaseInOutCircInterpolator implements TimeInterpolator{
 
     @Override
     public float getInterpolation(float input) {
-        if (input < 0.5f) {
+        if ((input*=2) < 1.0f) {
             return (float) (0.5 * (1 - Math.sqrt(1 - input*input)));
         }
         input -= 2;

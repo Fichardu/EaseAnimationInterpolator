@@ -38,10 +38,10 @@ public class EaseOutBounceInterpolator implements TimeInterpolator{
             return 7.5625f*input*input + 0.75f;
         } else if (input < 2.5f/2.75f) {
             input -= 2.25f/2.75f;
-            return 7.5625f*input*input - 0.9375f;
+            return 7.5625f*input*input + 0.9375f;
         } else {
             input -= 2.625f/2.75f;
-            return 7.5625f*input*input - 0.984375f;
+            return 7.5625f*input*input + 0.984375f;
         }
     }
 

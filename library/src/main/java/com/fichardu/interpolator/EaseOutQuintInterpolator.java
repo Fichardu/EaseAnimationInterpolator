@@ -29,7 +29,8 @@ public class EaseOutQuintInterpolator implements TimeInterpolator{
 
     @Override
     public float getInterpolation(float input) {
-        return 1 + (input - 1)*input*input*input*input;
+        input -= 1;
+        return 1 + input*input*input*input*input;
     }
 
 }

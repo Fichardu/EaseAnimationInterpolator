@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:textSize="16sp"
-    android:textColor="#66ffffff"
+    android:textColor="#66000000"
     android:background="@android:color/transparent"
     >
 

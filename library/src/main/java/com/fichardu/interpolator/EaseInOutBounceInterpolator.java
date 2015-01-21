@@ -33,7 +33,8 @@ public class EaseInOutBounceInterpolator implements TimeInterpolator{
     @Override
     public float getInterpolation(float input) {
         if (input < 0.5f) {
-            return 0.5f * out.getInterpolation(input*2);
+
+            return 0.5f * (1 - out.getInterpolation(1-input*2));
         }
         return 0.5f*(1 + out.getInterpolation(input*2 - 1));
     }

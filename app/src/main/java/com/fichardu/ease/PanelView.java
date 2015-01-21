@@ -48,7 +48,7 @@ public class PanelView extends View {
         mBallPaint.setStyle(Paint.Style.FILL);
 
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        CONTENT_HEIHGT = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, metrics);
+        CONTENT_HEIHGT = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160, metrics);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PanelView extends View {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
         int left = width / 10;
-        int right = width * 8 / 10;
+        int right = width * 9 / 10;
         int top = height / 2 - CONTENT_HEIHGT / 2;
         int bottom = height / 2 + CONTENT_HEIHGT  / 2;
         mFrame.set(left, top, right, bottom);

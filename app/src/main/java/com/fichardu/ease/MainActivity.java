@@ -1,8 +1,7 @@
 package com.fichardu.ease;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -19,10 +18,11 @@ import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String IN_PG_NAME = "com.fichardu.interpolator.";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private View mAnimView;
-    private static final String IN_PG_NAME = "com.fichardu.interpolator.";
+    private PanelView mPanelView;
+    private ValueAnimator mAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mAnimView = findViewById(R.id.anim_view);
+        mPanelView = (PanelView) findViewById(R.id.anim_view);
         mDrawerList.setAdapter(
                 new ArrayAdapter<String>(this, R.layout.drawer_list_item, mInterpolators));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,6 +40,18 @@ public class MainActivity extends ActionBarActivity {
                 selectDrawerItem(position);
             }
         });
+
+        mAnimator = ValueAnimator.ofFloat(1.0f);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float timeFraction = animation.getCurrentPlayTime() / (float) animation.getDuration();
+                float animFraction = ((Float) animation.getAnimatedValue()).floatValue();
+                mPanelView.onAnimate(timeFraction, animFraction);
+
+            }
+        });
+        mAnimator.setDuration(1000);
     }
 
     private void selectDrawerItem(int position) {
@@ -55,13 +67,15 @@ public class MainActivity extends ActionBarActivity {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        mAnimView.setTranslationY(0);
-        Animator animator = ObjectAnimator.ofFloat(mAnimView, "translationY", 0f, dp2px(this, 80));
-        animator.setDuration(1000);
+
         if (interpolator != null) {
-            animator.setInterpolator(interpolator);
+            mAnimator.cancel();
+            mAnimator.setInterpolator(interpolator);
+
+            mPanelView.reset();
+            mAnimator.start();
         }
-        animator.start();
+
 
     }
 
